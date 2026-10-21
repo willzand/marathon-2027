@@ -1,0 +1,552 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Road to Tokyo 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+/* Layout: lab-report spine — fixed zone key up top, 19-week volume ramp, then expandable week cards */
+:root{
+  --bg:#F6F8F7; --surface:#FFFFFF; --surface-2:#EFF3F1;
+  --fg:#17221E; --muted:#5C6B65; --line:#DCE4E0;
+  --accent:#0E6E62; --accent-soft:#D6EAE5;
+  --za:#6F76B8; --zb:#3F8E59; --zc:#B8911E; --zd:#CE7026; --ze:#BC3F39;
+  --warn:#B2560E; --warn-bg:#FBEFE3;
+  --f-display:'Anuphan',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans Thai',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111815; --surface:#19221E; --surface-2:#1F2A25;
+  --fg:#E7EDEA; --muted:#93A09A; --line:#2B3732;
+  --accent:#4EC0AE; --accent-soft:#1B3B36;
+  --za:#9298D4; --zb:#5FB37A; --zc:#D7B13E; --zd:#E8904A; --ze:#DE6A61;
+  --warn:#E9A765; --warn-bg:#2E2318;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#111815; --surface:#19221E; --surface-2:#1F2A25;
+  --fg:#E7EDEA; --muted:#93A09A; --line:#2B3732;
+  --accent:#4EC0AE; --accent-soft:#1B3B36;
+  --za:#9298D4; --zb:#5FB37A; --zc:#D7B13E; --zd:#E8904A; --ze:#DE6A61;
+  --warn:#E9A765; --warn-bg:#2E2318;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+header{padding-block:40px 24px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-size:clamp(30px,6vw,46px);font-weight:700;letter-spacing:-.02em;margin-block:10px 8px}
+.sub{color:var(--muted);font-size:14px;max-width:62ch}
+.counts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.count{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1 1 150px;min-width:0}
+.count .lbl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:var(--f-mono)}
+.count .big{font-family:var(--f-mono);font-size:26px;font-weight:600;line-height:1.1;margin-top:4px;font-variant-numeric:tabular-nums}
+.count .small{font-size:12px;color:var(--muted)}
+.count.primary{border-color:var(--accent);background:var(--accent-soft)}
+
+section{padding-block:34px;border-bottom:1px solid var(--line)}
+h2{font-size:21px;font-weight:600;letter-spacing:-.01em}
+.lede{color:var(--muted);font-size:14px;margin-block:8px 0;max-width:68ch}
+
+.callout{background:var(--warn-bg);border-left:3px solid var(--warn);border-radius:0 10px 10px 0;padding:16px 18px;margin-top:18px}
+.callout h3{font-size:15px;font-weight:600;color:var(--warn)}
+.callout p{margin-block:8px 0;font-size:14px}
+.callout p:last-child{margin-bottom:0}
+
+.zones{margin-top:20px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th{text-align:left;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0 10px 8px 0;border-bottom:1px solid var(--line)}
+td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.zchip{display:inline-flex;align-items:center;gap:8px;font-weight:600;white-space:nowrap}
+.zdot{width:4px;height:22px;border-radius:2px;flex:none}
+tr[data-z="A"] .zdot{background:var(--za)} tr[data-z="B"] .zdot{background:var(--zb)}
+tr[data-z="C"] .zdot{background:var(--zc)} tr[data-z="D"] .zdot{background:var(--zd)}
+tr[data-z="E"] .zdot{background:var(--ze)}
+.hint{font-size:12.5px;color:var(--muted);margin-top:12px}
+
+.chart{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 16px 14px;overflow-x:auto}
+.bars{display:flex;align-items:flex-end;gap:5px;height:150px;min-width:620px}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;min-width:0}
+.bar .fill{width:100%;border-radius:3px 3px 0 0;background:var(--accent);opacity:.82}
+.bar[data-p="rec"] .fill{background:var(--za);opacity:.6}
+.bar[data-p="peak"] .fill{background:var(--zd)}
+.bar[data-p="tune"] .fill{background:var(--zc)}
+.bar[data-p="race"] .fill{background:var(--ze)}
+.bar .v{font-family:var(--f-mono);font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar .w{font-family:var(--f-mono);font-size:9.5px;color:var(--muted);border-top:1px solid var(--line);width:100%;text-align:center;padding-top:4px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:2px;display:block}
+
+.weeks{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+details.week{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+details.week[open]{border-color:var(--accent)}
+details.week.now{box-shadow:0 0 0 2px var(--accent-soft)}
+summary{list-style:none;cursor:pointer;padding:15px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+summary::-webkit-details-marker{display:none}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.wno{font-family:var(--f-mono);font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:4px 8px;flex:none}
+.wmeta{flex:1 1 180px;min-width:0}
+.wphase{font-weight:600;font-size:15px}
+.wdate{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.wkm{font-family:var(--f-mono);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;flex:none}
+.wkm small{font-weight:400;color:var(--muted)}
+.wnow{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:var(--surface);border-radius:5px;padding:3px 7px;flex:none}
+.wrace{background:var(--ze);color:#fff}
+.wtune{background:var(--zc);color:#fff}
+
+.days{border-top:1px solid var(--line)}
+.day{display:grid;grid-template-columns:52px 1fr auto;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line);align-items:start}
+.day:last-child{border-bottom:none}
+.day .dn{font-family:var(--f-mono);font-size:12px;font-weight:600;color:var(--muted);padding-top:2px}
+.day .dt{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.day .dd{font-size:13.5px;color:var(--muted);margin-top:3px}
+.day .dkm{font-family:var(--f-mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;padding-top:2px}
+.tag{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;border-radius:4px;padding:2px 6px;font-weight:600;border:1px solid}
+.t-A{color:var(--za);border-color:var(--za)} .t-B{color:var(--zb);border-color:var(--zb)}
+.t-C{color:var(--zc);border-color:var(--zc)} .t-D{color:var(--zd);border-color:var(--zd)}
+.t-E{color:var(--ze);border-color:var(--ze)}
+.t-MP{color:var(--accent);border-color:var(--accent)}
+.day.rest{background:var(--surface-2)}
+.day.rest .dt{color:var(--muted);font-weight:500}
+.day.race{background:var(--accent-soft)}
+.day.race .dt{color:var(--accent);font-size:16px}
+.day.tune{background:var(--surface-2)}
+.day.tune .dt{color:var(--zc);font-size:15.5px}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{font-size:15px;font-weight:600;margin-bottom:10px}
+.card ul{margin:0;padding-left:18px;font-size:13.5px}
+.card li{margin-bottom:6px}
+.card li:last-child{margin-bottom:0}
+.sx{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:7px 0;border-bottom:1px solid var(--line)}
+.sx:last-child{border-bottom:none}
+.sx b{font-weight:500}
+.sx span{font-family:var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+footer{padding-block:28px;font-size:12.5px;color:var(--muted);max-width:70ch}
+@media (max-width:420px){
+  .day{grid-template-columns:40px 1fr;gap:10px;padding:12px 14px}
+  .day .dkm{grid-column:2;padding-top:0}
+  summary{padding:14px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">19-week block · 26 ต.ค. 2026 → 7 มี.ค. 2027</div>
+  <h1>Road to Tokyo 2027</h1>
+  <p class="sub">แผนซ้อมมาราธอนจากผล CPET ที่ College of Sports Science, Mahidol (21 ต.ค. 2026) — โซนหัวใจและ pace ทุกช่องอ้างจากตาราง Exercise Heart Rate Zones ในรายงานโดยตรง · มีฮาล์ฟมาราธอนแทรกสองรายการเป็นจุดวัดผล</p>
+  <div class="counts">
+    <div class="count"><div class="lbl">Osaka Marathon</div><div class="big" id="c-osaka">—</div><div class="small">อา 28 ก.พ. 2027 · B race</div></div>
+    <div class="count primary"><div class="lbl">Tokyo Marathon</div><div class="big" id="c-tokyo">—</div><div class="small">อา 7 มี.ค. 2027 · A race · sub-5</div></div>
+    <div class="count"><div class="lbl">Goal pace</div><div class="big mono">7:06</div><div class="small">/km · 8.45 km/h · 4:59:59</div></div>
+  </div>
+</header>
+
+<section>
+  <h2>โครงสร้างแผน</h2>
+  <p class="lede">สองมาราธอนห่างกัน 7 วัน ซึ่งน้อยเกินกว่าจะวิ่งเต็มที่ทั้งคู่ แผนนี้เลยเลือก Tokyo เป็นเป้าหมายหลัก และใช้ฮาล์ฟสองรายการที่ลงไว้แล้วเป็นจุดวัดผลระหว่างทาง</p>
+
+  <div class="callout">
+    <h3>Osaka คือการซ้อมใหญ่ ไม่ใช่การแข่ง</h3>
+    <p>วิ่ง Osaka ที่ HR 145–155 (Zone B ครึ่งล่าง) pace 7:25–7:40/km จบประมาณ 5:15–5:30 — ใช้เป็นการทดสอบ fueling, รองเท้า, ชุดแข่ง และการตื่นเช้าในอากาศเย็นจริง ไม่ไล่เวลา</p>
+    <p>ถ้าวิ่ง Osaka เต็มที่ ร่างกายจะยังไม่ฟื้นภายใน 7 วัน และ Tokyo จะพังทั้งคู่ กล้ามเนื้อใช้เวลาซ่อม 10–14 วันหลังมาราธอนเต็มสูบ</p>
+    <p><b>ถ้าอยากสลับให้ Osaka เป็น A race แทน</b> โครงสร้างยังใช้ได้ แค่เลื่อน taper มาเร็วขึ้น 1 สัปดาห์ แล้ววิ่ง Tokyo แบบ celebration run</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>รูปแบบสัปดาห์</h3>
+      <div class="sx"><b>จันทร์</b><span>พัก</span></div>
+      <div class="sx"><b>อังคาร</b><span>Quality · Zone C–D</span></div>
+      <div class="sx"><b>พุธ</b><span>Easy + Strength A</span></div>
+      <div class="sx"><b>พฤหัส</b><span>Tempo / MP</span></div>
+      <div class="sx"><b>ศุกร์</b><span>พัก / cross-train</span></div>
+      <div class="sx"><b>เสาร์</b><span>Easy + Strength B</span></div>
+      <div class="sx"><b>อาทิตย์</b><span>Long run</span></div>
+    </div>
+    <div class="card">
+      <h3>ตรรกะของแผน</h3>
+      <ul>
+        <li>ประมาณ 80% ของระยะทั้งหมดอยู่ใน Zone A–B ล่าง — สร้างฐาน aerobic และดัน VT1 ขึ้น</li>
+        <li>เป้าหมายจริงคือทำให้ pace 7:06/km ย้ายจาก Zone C (HR 163+) ลงมาอยู่ Zone B บน (HR 153–160)</li>
+        <li><b>Long run เกิน 30 km สองครั้ง</b> — 30 km ที่สัปดาห์ 14 และ 32 km ที่สัปดาห์ 16 โดยมีสัปดาห์ลดระยะคั่นกลาง</li>
+        <li>Peak 66 km/สัปดาห์ — พอสำหรับ sub-5 โดยไม่ดันความเสี่ยงบาดเจ็บที่น้ำหนัก 87 kg</li>
+        <li>ฮาล์ฟทั้งสองรายการมีสัปดาห์ลดระยะนำหน้า และสัปดาห์ฟื้นตามหลังเสมอ</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>ATM Toyota Half · อา 29 พ.ย. (W5)</h3>
+      <p class="lede" style="margin-top:0">เร็วเกินกว่าจะวิ่งเต็มที่ — เพิ่งซ้อมมา 5 สัปดาห์ และวิ่งที่กรุงเทพฯ ซึ่งร้อน</p>
+      <ul style="margin-top:10px">
+        <li>7 km แรก Zone B (HR 150–158) อย่าปล่อยตามฝูง</li>
+        <li>จากนั้นขยับเป็น Zone C (HR 160–168) · 7:00–7:15/km</li>
+        <li>เป้าเวลา <b>2:25–2:35</b> — ใช้เป็นเส้นฐาน ไม่ใช่เป้าหมาย</li>
+        <li>ซ้อมเติมเจลระหว่างแข่ง 2 ซอง แม้ระยะแค่ 21 km</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>ฮาล์ฟจอมบึง · อา 17 ม.ค. (W12)</h3>
+      <p class="lede" style="margin-top:0">รายการนี้คือจุดวัดผลจริง — อยู่กลางบล็อก อากาศเย็นกว่า และมีสัปดาห์ลดระยะนำ</p>
+      <ul style="margin-top:10px">
+        <li>วิ่งเต็มที่ได้ · Zone C (HR 163–172) · 6:50–7:10/km</li>
+        <li>เป้าเวลา <b>2:20–2:25</b></li>
+        <li><b>เส้นวัด:</b> เวลาฮาล์ฟ × 2.1 ≈ เวลามาราธอน — 2:22 แปลว่าอยู่บนเส้นทาง sub-5 พอดี</li>
+        <li>เสาร์ 16 ม.ค. เป็นวันเดินทาง ไม่มีซ้อม — ลงไว้ในตารางแล้ว</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>โซนซ้อม</h2>
+  <p class="lede">ค่าจากรายงาน Mahidol หน้า 3 (HRmax 185, VT1 165 / 8.2 km·h⁻¹, VT2 187 / 10.4 km·h⁻¹)</p>
+  <div class="zones">
+    <table>
+      <thead><tr><th>Zone</th><th>HR</th><th>Pace</th><th>km/h</th><th>V′O₂</th><th>ใช้ทำอะไร</th></tr></thead>
+      <tbody>
+        <tr data-z="A"><td><span class="zchip"><i class="zdot"></i>A · Compensation</span></td><td class="num">&lt; 144</td><td class="num">&gt; 8:57</td><td class="num">&lt; 6.7</td><td class="num">&lt; 1751</td><td>Recovery, long run ช้า, fat max อยู่ที่ HR 133–138</td></tr>
+        <tr data-z="B"><td><span class="zchip"><i class="zdot"></i>B · Extensive Endurance</span></td><td class="num">144–163</td><td class="num">8:57–7:19</td><td class="num">6.7–8.2</td><td class="num">1751–2277</td><td>หัวใจของแผน — easy run, long run, marathon pace</td></tr>
+        <tr data-z="C"><td><span class="zchip"><i class="zdot"></i>C · Intensive Endurance</span></td><td class="num">163–172</td><td class="num">7:19–6:44</td><td class="num">8.2–8.9</td><td class="num">2277–2700</td><td>Tempo / threshold 15–40 นาที · pace ฮาล์ฟ</td></tr>
+        <tr data-z="D"><td><span class="zchip"><i class="zdot"></i>D · Development</span></td><td class="num">172–182</td><td class="num">6:44–6:11</td><td class="num">8.9–9.7</td><td class="num">2700–2576</td><td>Interval 2–4 นาที ดัน VO₂max</td></tr>
+        <tr data-z="E"><td><span class="zchip"><i class="zdot"></i>E · Top</span></td><td class="num">&gt; 182</td><td class="num">&lt; 6:11</td><td class="num">&gt; 9.7</td><td class="num">&gt; 2576</td><td>Rep สั้น 400 m เท่านั้น ใช้น้อยมาก</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint"><b>MP (Marathon Pace)</b> = 7:00–7:15/km ที่ HR 153–160 → Zone B ครึ่งบน · <b>ข้อควรระวัง:</b> ค่าเหล่านี้วัดที่ 33.4°C ที่ญี่ปุ่นอากาศ 8–12°C pace จะเร็วขึ้นประมาณ 4–6% ที่ HR เดิม — <b>ซ้อมและแข่งโดยยึด HR เป็นหลัก แล้วปล่อยให้ pace ตามมาเอง</b></p>
+</section>
+
+<section>
+  <h2>ระยะทางรายสัปดาห์</h2>
+  <div class="chart">
+    <div class="bars" id="bars"></div>
+    <div class="legend">
+      <span><i style="background:var(--accent);opacity:.82"></i>Base / Build</span>
+      <span><i style="background:var(--za);opacity:.6"></i>Recovery week</span>
+      <span><i style="background:var(--zd)"></i>Peak · long run 30+</span>
+      <span><i style="background:var(--zc)"></i>ฮาล์ฟมาราธอน</span>
+      <span><i style="background:var(--ze)"></i>มาราธอน</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>ตารางซ้อม 19 สัปดาห์</h2>
+  <p class="lede">กดที่สัปดาห์เพื่อดูรายละเอียดรายวัน · สัปดาห์ปัจจุบันเปิดไว้ให้อัตโนมัติ</p>
+  <div class="weeks" id="weeks"></div>
+</section>
+
+<section>
+  <h2>เวทเทรนนิ่ง</h2>
+  <p class="lede">ลดจากโปรแกรม Hyrox เดิมเหลือ 2 วัน/สัปดาห์ เน้นความทนทานของข้อต่อและ single-leg stability แทนกำลังสูงสุด — ตัด sled push/pull, sandbag lunge, wall ball ออกทั้งหมด</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>Strength A — ขา (วันพุธ)</h3>
+      <div class="sx"><b>Back Squat</b><span>3 × 8 @ 55–60 kg</span></div>
+      <div class="sx"><b>Romanian Deadlift</b><span>3 × 8 @ 50 kg</span></div>
+      <div class="sx"><b>Bulgarian Split Squat</b><span>3 × 10/ข้าง @ DB 12 kg</span></div>
+      <div class="sx"><b>Single-Leg Curl</b><span>3 × 12 @ 25 kg</span></div>
+      <div class="sx"><b>Calf Raise (ช้า 3 วินาที)</b><span>3 × 15 @ 35 kg</span></div>
+      <div class="sx"><b>Plank</b><span>3 × 45 วินาที</span></div>
+    </div>
+    <div class="card">
+      <h3>Strength B — บน + core (วันเสาร์)</h3>
+      <div class="sx"><b>Bench Press</b><span>3 × 8 @ 40 kg</span></div>
+      <div class="sx"><b>Dumbbell Row</b><span>3 × 10/ข้าง</span></div>
+      <div class="sx"><b>Overhead Press</b><span>3 × 10</span></div>
+      <div class="sx"><b>Pallof Press</b><span>3 × 12/ข้าง</span></div>
+      <div class="sx"><b>Side Plank</b><span>3 × 30 วินาที/ข้าง</span></div>
+      <div class="sx"><b>Dead Bug</b><span>3 × 12</span></div>
+    </div>
+  </div>
+  <p class="hint">Calf raise ช้าๆ คือตัวสำคัญที่สุดในนี้ — เอ็นร้อยหวายรับแรงมากที่สุดเมื่อระยะวิ่งเพิ่มขึ้นที่น้ำหนัก 87 kg · สัปดาห์ที่มีฮาล์ฟหรือ long run 30+ ให้ลดน้ำหนักลง 20–30% และต้องห่างจากวันแข่งอย่างน้อย 72 ชั่วโมง · ช่วง taper (สัปดาห์ 17–19) เหลือสัปดาห์ละครั้ง ใช้น้ำหนักตัว</p>
+</section>
+
+<section>
+  <h2>เติมพลังงานและองค์ประกอบร่างกาย</h2>
+  <p class="lede">ผล Lipid Metabolism บอกว่าเผาไขมันสูงสุด 28–31 g/ชม. ที่ HR 133–138 (6.5 km/h) ซึ่งค่อนข้างต่ำ แปลว่าพอวิ่งเร็วกว่านั้นจะพึ่งคาร์โบไฮเดรตเกือบทั้งหมด</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>วันแข่ง</h3>
+      <ul>
+        <li>คาร์บ <b>60–90 g/ชม.</b> เริ่มตั้งแต่ km 5 ไม่ใช่รอจนหิว — เจลทุก 25–30 นาที</li>
+        <li>5 ชั่วโมงที่ marathon pace ใช้ราว 3,500 kcal แต่ไกลโคเจนเก็บได้แค่ ~2,000</li>
+        <li>ซ้อมเติมพลังงานทุก long run ที่เกิน 90 นาที ด้วยยี่ห้อและรสเดิมที่จะใช้วันแข่ง</li>
+        <li>ฮาล์ฟสองรายการคือโอกาสซ้อมกระเพาะในสภาพแข่งจริง — กินแม้ไม่หิว</li>
+        <li>เกลือแร่ 300–500 mg โซเดียม/ชม. แม้อากาศเย็น</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>ลดไขมัน</h3>
+      <ul>
+        <li>ให้แคลอรีขาดดุลตกอยู่ที่ <b>วันจันทร์และวันศุกร์</b> (วันพัก) ไม่ใช่วันคุณภาพหรือวัน long run</li>
+        <li>โปรตีนสูงไว้เพื่อรักษามวลกล้ามเนื้อระหว่างลดน้ำหนัก</li>
+        <li>เป้าที่ยั่งยืนคือไม่เกิน 0.5 kg/สัปดาห์ — เร็วกว่านี้คุณภาพการซ้อมจะตก</li>
+        <li>สัปดาห์ที่มีฮาล์ฟ (W5, W12) ให้กินปกติ ไม่ลด</li>
+        <li><b>หยุดลดน้ำหนักตั้งแต่สัปดาห์ที่ 17</b> ช่วง taper ต้องเติมไกลโคเจนให้เต็ม</li>
+        <li>Long run ใน Zone A คือเครื่องมือเผาไขมันที่ดีที่สุดในแผนนี้ และดัน fat oxidation ขึ้นไปในตัว</li>
+      </ul>
+    </div>
+  </div>
+  <p class="hint">การลดไขมันช่วยสองทางพร้อมกัน: V′O₂/kg ขึ้นโดยไม่ต้องซ้อมเพิ่ม และแรงกระแทกต่อข้อต่อลดลงตลอด 42 km · ถ้าอยากวางแผนโภชนาการจริงจัง แนะนำคุยกับนักกำหนดอาหารการกีฬา</p>
+</section>
+
+<section>
+  <h2>แผน pacing วันแข่ง Tokyo</h2>
+  <p class="lede">ออกตัวช้ากว่าเป้า แล้วค่อยเก็บเวลาคืนช่วงกลาง — ตั้งนาฬิกาให้โชว์ HR ไม่ใช่ pace ใน 10 km แรก</p>
+  <div class="zones">
+    <table>
+      <thead><tr><th>ช่วง</th><th>Pace</th><th>HR</th><th>เวลาสะสม</th><th>หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr><td class="num">0–5 km</td><td class="num">7:10</td><td class="num">≤ 150</td><td class="num">35:50</td><td>คนแน่นมาก อย่าแซง ปล่อยให้ช้ากว่าเป้าได้</td></tr>
+        <tr><td class="num">5–30 km</td><td class="num">6:58</td><td class="num">152–158</td><td class="num">2:50:00</td><td>จังหวะหลัก ถ้า HR เกิน 160 ให้ผ่อนทันที</td></tr>
+        <tr><td class="num">30–42.2 km</td><td class="num">7:05</td><td class="num">≤ 165</td><td class="num">4:56:23</td><td>ช่วงตัดสิน เติมเจลต่อแม้ไม่อยากกิน</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">จบที่ประมาณ <b>4:56</b> มีกันชนเหลือ 3 นาทีครึ่งก่อนเส้น sub-5 · cut-off ของ Tokyo คือ 7 ชั่วโมงนับจากเสียงปืน ไม่ใช่ chip time — แต่ด้วยแผนนี้ไม่ใช่เรื่องต้องกังวล</p>
+  <div class="callout" style="margin-top:20px">
+    <h3>ตัวเลขนี้คือกรณีขาสด — แต่ขาจะไม่สด</h3>
+    <p>Tokyo อยู่ห่างจาก Osaka 7 วัน แม้จะวิ่ง Osaka แบบคุมโซนแล้ว ขาก็ยังไม่ฟื้นเต็มร้อย ให้เผื่อช้าลงจากแผนนี้ประมาณ 5–10 นาที ซึ่งแปลว่า sub-5 อยู่บนเส้นพอดี ไม่ใช่ของตาย</p>
+    <p><b>จุดตัดสินใจอยู่ที่ km 25</b> — ถ้าถึงตรงนั้นแล้ว HR ยังอยู่ใต้ 158 และขายังรู้สึกมีเหลือ ให้เดินหน้าตามแผน ถ้า HR ไต่ขึ้นเกิน 162 ทั้งที่ pace เท่าเดิม แปลว่าวันนี้ร่างกายไม่ให้ — ผ่อนลงเป็น 7:20/km แล้วเก็บเหรียญครบ 20th Anniversary กลับบ้าน</p>
+    <p>ถ้า sub-5 คือเป้าที่ต้องได้จริงๆ ทางที่ชัวร์กว่าคือสลับให้ <b>Osaka เป็น A race</b> แล้ววิ่ง Tokyo แบบเก็บบรรยากาศ — Osaka จะได้ขาสดเต็มร้อยจาก taper 3 สัปดาห์</p>
+  </div>
+</section>
+
+<footer>
+  ผมไม่ใช่แพทย์หรือโค้ชวิ่งนะครับ — แผนนี้สร้างจากตัวเลขในรายงาน CPET ของพี่เอง ถ้ามีอาการเจ็บที่ไม่หายใน 3–4 วัน ให้หยุดและไปหาหมอ และถ้าทำได้ ควรเทส CPET ซ้ำช่วงต้นเดือนมกราคมเพื่อปรับโซนใหม่ เพราะเทสรอบนี้ทำที่ 33.4°C และ RERmax แค่ 1.02 ซึ่งน่าจะยังไม่ถึงความสามารถจริง
+</footer>
+
+</div>
+
+<script>
+const PLAN = [
+ {n:1,start:'2026-10-26',phase:'Base 1 · ปรับตัว',km:32,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Easy 6 km',z:'B',dd:'HR 145–152 · 8:30–8:50/km + strides 4 × 20 วินาที',km:6},
+  {d:'พ',ti:'Strength A + จักรยาน 30 นาที',z:'A',dd:'ปั่นเบา HR < 144 ไม่ต้องหนัก'},
+  {d:'พฤ',ti:'Easy 7 km',z:'B',dd:'HR 145–152 · 8:30–8:50/km',km:7},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km + Strength B',z:'A',dd:'HR < 144 · 9:00–9:20/km',km:5},
+  {d:'อา',ti:'Long run 14 km',z:'A',dd:'HR 140–152 · 8:40–9:10/km · เริ่มฝึกกินเจลที่ km 8',km:14}]},
+
+ {n:2,start:'2026-11-02',phase:'Base 1',km:36,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Easy 7 km',z:'B',dd:'8:30–8:50/km + strides 5 × 20 วินาที',km:7},
+  {d:'พ',ti:'Strength A + จักรยาน 35 นาที',z:'A'},
+  {d:'พฤ',ti:'Tempo แรกของแผน 8 km',z:'C',dd:'วอร์ม 2 km + 3 × 6 นาที @ HR 163–170 (6:50–7:10/km) สลับจ็อก 2 นาที + คูลดาวน์ 2 km',km:8},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km + Strength B',z:'A',km:5},
+  {d:'อา',ti:'Long run 16 km',z:'A',dd:'HR 140–152 · คุมให้ 2 km สุดท้ายไม่เร็วกว่า 2 km แรก',km:16}]},
+
+ {n:3,start:'2026-11-09',phase:'Base 1',km:40,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Interval 8 km',z:'D',dd:'วอร์ม 2 km + 6 × 2 นาที @ HR 172–180 (6:15–6:35/km) จ็อก 2 นาที + คูลดาวน์ 2 km',km:8},
+  {d:'พ',ti:'Strength A + จักรยาน 35 นาที',z:'A'},
+  {d:'พฤ',ti:'Tempo 8 km',z:'C',dd:'วอร์ม 2 km + 15 นาทีต่อเนื่อง @ HR 163–172 + คูลดาวน์ 2 km',km:8},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 6 km + Strength B',z:'B',km:6},
+  {d:'อา',ti:'Long run 18 km',z:'A',dd:'HR 140–152 · เติมเจล 1 ซองที่ km 10',km:18}]},
+
+ {n:4,start:'2026-11-16',phase:'ลดระยะ · เตรียมฮาล์ฟ',rec:1,km:30,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Easy 6 km',z:'B',dd:'+ strides 4 × 20 วินาที',km:6},
+  {d:'พ',ti:'Strength A (ลดน้ำหนัก 20%) + จักรยาน 30 นาที',z:'A'},
+  {d:'พฤ',ti:'Easy 6 km',z:'A',dd:'HR < 144 เท่านั้น',km:6},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 4 km + Strength B',z:'A',km:4},
+  {d:'อา',ti:'Long run 14 km — fat max',z:'A',dd:'HR 133–145 ตลอด (9:00–9:15/km) ห้ามเกิน · อาทิตย์หน้าแข่งฮาล์ฟแล้ว เก็บแรงไว้',km:14}]},
+
+ {n:5,start:'2026-11-23',phase:'ATM Toyota Half Marathon',half:1,km:20,rk:21.1,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Easy 6 km',z:'B',dd:'+ strides 5 × 20 วินาที ปลุกขา',km:6},
+  {d:'พ',ti:'Easy 5 km + Strength A (เบามาก)',z:'A',dd:'น้ำหนัก 60% ของปกติ ไม่เอาถึงล้า',km:5},
+  {d:'พฤ',ti:'Tune-up 6 km',z:'MP',dd:'วอร์ม 2 km + 2 km @ 7:00/km + คูลดาวน์ 2 km · แค่ให้ขาจำจังหวะ',km:6},
+  {d:'ศ',t:'rest',ti:'พัก · เตรียมของ รับ bib'},
+  {d:'ส',ti:'Shakeout 3 km',z:'A',dd:'+ strides 3 × 15 วินาที · นอนเร็ว',km:3},
+  {d:'อา',t:'tune',ti:'ATM TOYOTA HALF MARATHON · 21.1 km',z:'C',dd:'7 km แรก Zone B (HR 150–158) อย่าตามฝูง · จากนั้น Zone C (HR 160–168) 7:00–7:15/km · เป้า 2:25–2:35 · กรุงเทพฯ ร้อน อย่าฝืน pace ถ้า HR พุ่ง · ซ้อมเติมเจล 2 ซอง',km:21.1}]},
+
+ {n:6,start:'2026-11-30',phase:'ฟื้นจากฮาล์ฟ',rec:1,km:40,days:[
+  {d:'จ',t:'rest',ti:'พักเต็มวัน'},
+  {d:'อ',ti:'Recovery jog 5 km',z:'A',dd:'HR < 140 ช้ามาก · ถ้าขายังตึงให้เดินแทน',km:5},
+  {d:'พ',ti:'Easy 6 km + Strength A (เบา)',z:'A',km:6},
+  {d:'พฤ',ti:'Easy 8 km',z:'B',dd:'HR 145–152 กลับเข้าจังหวะปกติ',km:8},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km',z:'A',dd:'+ strides 4 × 20 วินาที',km:5},
+  {d:'อา',ti:'Long run 16 km',z:'A',dd:'HR 133–148 เท่านั้น · ยังไม่กลับไปวิ่งหนัก',km:16}]},
+
+ {n:7,start:'2026-12-07',phase:'Base 2',km:48,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Interval 9 km',z:'D',dd:'วอร์ม 2 km + 5 × 3 นาที @ HR 172–180 จ็อก 2 นาที + คูลดาวน์ 2 km',km:9},
+  {d:'พ',ti:'Easy 6 km + Strength A',z:'A',km:6},
+  {d:'พฤ',ti:'Tempo 9 km',z:'C',dd:'วอร์ม 2 km + 20 นาทีต่อเนื่อง @ HR 163–172 + คูลดาวน์ 2 km',km:9},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 6 km',z:'B',dd:'+ strides 5 × 20 วินาที',km:6},
+  {d:'อา',ti:'Long run 18 km',z:'B',dd:'14 km @ HR 140–152 + 4 km สุดท้าย @ HR 153–160',km:18}]},
+
+ {n:8,start:'2026-12-14',phase:'Base 2',km:54,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Interval 10 km',z:'D',dd:'วอร์ม 2 km + 6 × 3 นาที @ HR 172–180 จ็อก 2 นาที + คูลดาวน์ 2 km',km:10},
+  {d:'พ',ti:'Easy 6 km + Strength A',z:'A',km:6},
+  {d:'พฤ',ti:'Tempo 10 km',z:'C',dd:'วอร์ม 2 km + 2 × 12 นาที @ HR 163–172 จ็อก 3 นาที + คูลดาวน์ 2 km',km:10},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 6 km + Strength B',z:'B',km:6},
+  {d:'อา',ti:'Long run 22 km — MP ครั้งแรก',z:'MP',dd:'16 km @ HR 140–152 + 6 km สุดท้าย @ marathon pace (HR 153–160 · 7:00–7:15/km)',km:22}]},
+
+ {n:9,start:'2026-12-21',phase:'Recovery',rec:1,km:40,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Easy 7 km',z:'B',dd:'+ strides 4 × 20 วินาที',km:7},
+  {d:'พ',ti:'Strength A (เบา) + จักรยาน 35 นาที',z:'A'},
+  {d:'พฤ',ti:'Easy 8 km',z:'A',dd:'HR < 144',km:8},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km + Strength B',z:'A',km:5},
+  {d:'อา',ti:'Long run 20 km — fat max',z:'A',dd:'HR 133–145 ตลอด · ช่วงปีใหม่ ไม่ต้องกดดันตัวเอง',km:20}]},
+
+ {n:10,start:'2026-12-28',phase:'Build 1',km:58,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Interval 10 km',z:'D',dd:'วอร์ม 2 km + 6 × 1000 m @ 6:10–6:30/km จ็อก 2 นาที + คูลดาวน์ 2 km',km:10},
+  {d:'พ',ti:'Easy 6 km + Strength A',z:'A',km:6},
+  {d:'พฤ',ti:'Tempo 10 km',z:'C',dd:'วอร์ม 2 km + 2 × 15 นาที @ HR 163–172 จ็อก 3 นาที + คูลดาวน์ 2 km',km:10},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 6 km + Strength B',z:'B',km:6},
+  {d:'อา',ti:'Long run 26 km',z:'MP',dd:'18 km easy + 8 km สุดท้าย @ MP · ซ้อมเติมเจลครบชุดเหมือนวันแข่ง',km:26}]},
+
+ {n:11,start:'2027-01-04',phase:'Build 1',km:62,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Interval 11 km',z:'D',dd:'วอร์ม 2 km + 8 × 800 m @ 6:10–6:25/km จ็อก 90 วินาที + คูลดาวน์ 2.5 km',km:11},
+  {d:'พ',ti:'Easy 6 km + Strength A',z:'A',km:6},
+  {d:'พฤ',ti:'MP run 12 km',z:'MP',dd:'วอร์ม 2 km + 8 km ต่อเนื่อง @ MP (HR 153–160) + คูลดาวน์ 2 km',km:12},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km',z:'A',km:5},
+  {d:'อา',ti:'Long run 28 km',z:'A',dd:'HR 140–152 ตลอด · เน้นเวลาบนขา ไม่ใช่ความเร็ว · ประมาณ 3:45 ชม.',km:28}]},
+
+ {n:12,start:'2027-01-11',phase:'ฮาล์ฟจอมบึง · จุดวัดผล',half:1,km:16,rk:21.1,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Easy 6 km',z:'B',dd:'+ strides 5 × 20 วินาที',km:6},
+  {d:'พ',ti:'Easy 5 km + Strength A (เบามาก)',z:'A',dd:'น้ำหนัก 60% · นี่คือเวทครั้งสุดท้ายก่อนแข่ง',km:5},
+  {d:'พฤ',ti:'Tune-up 5 km',z:'MP',dd:'วอร์ม 1.5 km + 2 km @ 6:55/km + คูลดาวน์ 1.5 km',km:5},
+  {d:'ศ',t:'rest',ti:'พัก · เตรียมของให้เสร็จคืนนี้'},
+  {d:'ส',t:'rest',ti:'เดินทางไปราชบุรี — ไม่ซ้อม',dd:'ถึงที่พักแล้วเดินยืดขา 10–15 นาที คลายจากการนั่งรถ · กินคาร์บให้เต็ม นอนเร็ว'},
+  {d:'อา',t:'tune',ti:'ฮาล์ฟจอมบึง · 21.1 km',z:'C',dd:'วิ่งเต็มที่ได้ · 3 km แรก Zone B แล้วขยับเป็น Zone C (HR 163–172) 6:50–7:10/km · เป้า 2:20–2:25 · เวลาที่ได้ × 2.1 คือเวลามาราธอนที่คาดได้ — ต่ำกว่า 2:23 แปลว่าอยู่บนเส้นทาง sub-5',km:21.1}]},
+
+ {n:13,start:'2027-01-18',phase:'ฟื้น + กลับเข้า Build',km:52,days:[
+  {d:'จ',t:'rest',ti:'พักเต็มวัน'},
+  {d:'อ',ti:'Recovery jog 5 km',z:'A',dd:'HR < 140 · วันนี้ห้ามดูนาฬิกาเรื่อง pace',km:5},
+  {d:'พ',ti:'Easy 6 km + Strength A (เบา)',z:'A',km:6},
+  {d:'พฤ',ti:'Tempo 9 km',z:'C',dd:'วอร์ม 2 km + 20 นาที @ HR 163–170 + คูลดาวน์ 2 km',km:9},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 6 km',z:'B',dd:'+ strides',km:6},
+  {d:'อา',ti:'Long run 26 km',z:'MP',dd:'18 km easy + 8 km สุดท้าย @ MP',km:26}]},
+
+ {n:14,start:'2027-01-25',phase:'Peak 1 · long run 30',peak:1,km:64,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Interval 11 km',z:'D',dd:'วอร์ม 2 km + 6 × 1000 m @ 6:10–6:30/km จ็อก 2 นาที + คูลดาวน์ 3 km',km:11},
+  {d:'พ',ti:'Easy 6 km + Strength A',z:'A',km:6},
+  {d:'พฤ',ti:'MP run 12 km',z:'MP',dd:'วอร์ม 2 km + 8 km @ MP + คูลดาวน์ 2 km',km:12},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km',z:'A',dd:'ช้ามาก เก็บแรงไว้พรุ่งนี้',km:5},
+  {d:'อา',ti:'Long run 30 km',z:'MP',dd:'22 km @ HR 140–152 + 8 km สุดท้าย @ MP · ประมาณ 3:30–3:50 ชม. · เจลทุก 30 นาทีตั้งแต่ km 6',km:30}]},
+
+ {n:15,start:'2027-02-01',phase:'ลดระยะ',rec:1,km:48,days:[
+  {d:'จ',t:'rest',ti:'พักเต็มวัน'},
+  {d:'อ',ti:'Easy 8 km',z:'B',dd:'+ strides 5 × 20 วินาที',km:8},
+  {d:'พ',ti:'Easy 6 km + Strength A (เบา)',z:'A',km:6},
+  {d:'พฤ',ti:'Tempo 9 km',z:'C',dd:'วอร์ม 2 km + 2 × 12 นาที @ HR 163–170 จ็อก 3 นาที + คูลดาวน์ 2 km',km:9},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km + Strength B',z:'A',km:5},
+  {d:'อา',ti:'Long run 20 km',z:'A',dd:'HR 133–148 · ดูดซับงานจากสัปดาห์ที่แล้ว เตรียมรับ 32 km',km:20}]},
+
+ {n:16,start:'2027-02-08',phase:'Peak 2 · ซ้อมใหญ่ 32',peak:1,km:66,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Interval 10 km',z:'E',dd:'วอร์ม 2 km + 10 × 400 m @ 5:50–6:05/km จ็อก 90 วินาที + คูลดาวน์ 2.5 km',km:10},
+  {d:'พ',ti:'Easy 6 km + Strength A',z:'A',km:6},
+  {d:'พฤ',ti:'MP run 13 km',z:'MP',dd:'วอร์ม 2 km + 9 km @ MP + คูลดาวน์ 2 km',km:13},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 5 km',z:'A',km:5},
+  {d:'อา',ti:'Long run 32 km — ซ้อมใหญ่',z:'MP',dd:'20 km @ HR 140–152 + 12 km สุดท้าย @ MP · 3:45–4:10 ชม. · ซ้อมเต็มรูปแบบ: ชุดแข่ง รองเท้าแข่ง อาหารเช้า เจล เกลือแร่ เหมือนวันแข่งทุกอย่าง · นี่คือเซสชันที่บอกได้ชัดที่สุดว่า sub-5 พร้อมหรือยัง',km:32}]},
+
+ {n:17,start:'2027-02-15',phase:'Taper เริ่ม',km:42,days:[
+  {d:'จ',t:'rest',ti:'พักเต็มวัน'},
+  {d:'อ',ti:'Interval 8 km',z:'D',dd:'วอร์ม 2 km + 5 × 800 m @ 6:10–6:25/km จ็อก 2 นาที + คูลดาวน์ 2 km',km:8},
+  {d:'พ',ti:'Easy 5 km + Strength (น้ำหนักตัวล้วน)',z:'A',km:5},
+  {d:'พฤ',ti:'Tempo 8 km',z:'C',dd:'วอร์ม 2 km + 15 นาที @ HR 163–170 + คูลดาวน์ 2 km',km:8},
+  {d:'ศ',t:'rest',ti:'พัก'},
+  {d:'ส',ti:'Easy 4 km',z:'A',km:4},
+  {d:'อา',ti:'Long run 17 km',z:'MP',dd:'11 km easy + 6 km @ MP · ซ้อมในชุดแข่งและรองเท้าแข่งจริง · หยุดลดน้ำหนักตั้งแต่สัปดาห์นี้',km:17}]},
+
+ {n:18,start:'2027-02-22',phase:'สัปดาห์แข่ง Osaka',race:1,km:18,rk:42.2,days:[
+  {d:'จ',t:'rest',ti:'พัก'},
+  {d:'อ',ti:'Easy 6 km',z:'A',dd:'+ strides 4 × 20 วินาที · เพิ่มคาร์บในมื้ออาหารตั้งแต่วันนี้',km:6},
+  {d:'พ',ti:'Easy 5 km พร้อม 3 km @ MP',z:'MP',dd:'ปลุกขาให้จำ pace ไว้ ไม่ต้องเหนื่อย',km:5},
+  {d:'พฤ',ti:'Easy 4 km · 25 ก.พ.',z:'A',dd:'HR < 140 · วิ่งครั้งสุดท้ายในไทย · เตรียมของให้เสร็จคืนนี้ ไม่ใช่พรุ่งนี้',km:4},
+  {d:'ศ',t:'rest',ti:'26 ก.พ. · บินกลางคืนไปโอซาก้า',dd:'ไม่วิ่ง · ใส่ถุงน่องรัดกล้ามเนื้อขึ้นเครื่อง ลุกเดินทุก 1–2 ชม. ดื่มน้ำให้มากกว่าปกติ · เก็บ bib, รองเท้าแข่ง, เจล, ชุดแข่ง ไว้ใน carry-on ทั้งหมด ห้ามโหลดใต้ท้อง'},
+  {d:'ส',ti:'27 ก.พ. · ถึงเช้า → Expo + Shakeout 3 km',z:'A',dd:'ลำดับความสำคัญ: ไป INTEX Osaka รับ bib ก่อนทุกอย่าง — Expo ปิดวันนี้วันสุดท้าย ไม่มีรับ bib วันแข่ง · หลังรับเสร็จค่อย shakeout 3 km HR < 140 คลายขาจากเครื่องบิน · ที่เหลือของวันนอนยกขาสูงในห้อง เดินให้น้อยที่สุด · คืนนี้คือคืนที่สำคัญจริง นอนให้ได้',km:3},
+  {d:'อา',t:'race',ti:'OSAKA MARATHON · 42.2 km',z:'B',dd:'คุม HR 145–155 · pace 7:25–7:40/km · เป้า 5:15–5:30 · เป้าหมายจริงคือทดสอบ fueling ไม่ใช่เวลา — ถ้าเริ่มรู้สึกว่าต้องฝืน แปลว่าเร็วไปแล้ว',km:42.2}]},
+
+ {n:19,start:'2027-03-01',phase:'ฟื้นตัว + แข่ง Tokyo',race:1,km:3,rk:42.2,days:[
+  {d:'จ',t:'rest',ti:'1 มี.ค. · ฟื้นตัวที่โอซาก้า',dd:'ไม่วิ่ง · แช่น้ำอุ่นหรือออนเซ็น นอนยกขาสูง · โปรตีนกับคาร์บเติมให้เต็มตั้งแต่วันนี้ · เดินไม่เกิน 6,000 ก้าว · เลี่ยงแอลกอฮอล์ มันชะลอการซ่อมกล้ามเนื้อ'},
+  {d:'อ',t:'rest',ti:'2 มี.ค. · เดินทางไปอูจิ',dd:'วันนี้กล้ามเนื้อจะเจ็บที่สุด (DOMS พีคที่ 24–48 ชม.) ระวังบันไดและทางลง จะเจ็บกว่าทางขึ้น · ใส่รองเท้าเดินที่นุ่ม ห้ามใส่รองเท้าแข่ง · เป้า ≤12,000 ก้าว นั่งพักบ่อยๆ'},
+  {d:'พ',t:'rest',ti:'3 มี.ค. · ชินคันเซ็นไปโตเกียว',dd:'วันฟื้นตัวที่ดีที่สุดของสัปดาห์ — ได้นั่งยาว · ใส่ถุงน่องรัดกล้ามเนื้อ ลุกเดินในขบวนทุกชั่วโมง ยืดน่องตอนยืน'},
+  {d:'พฤ',t:'rest',ti:'4 มี.ค. · รับ bib ที่ Tokyo Big Sight',dd:'ไปเช้าแล้วกลับเร็ว เดินในฮอลล์เยอะเลี่ยงไม่ได้อยู่แล้ว · Big Sight อยู่อาริอาเกะ ไกลจากกลางเมือง เผื่อเวลาไป-กลับ 2 ชม. · ≤10,000 ก้าว · กลับถึงที่พักแล้วยกขาสูง'},
+  {d:'ศ',t:'rest',ti:'5 มี.ค. · ชอปปิ้ง — คุมก้าว',dd:'≤8,000 ก้าว · ยืนนิ่งบนพื้นแข็งทำให้ขาล้ากว่าเดินเสียอีก ให้นั่งพักทุก 45 นาที · เริ่มโหลดคาร์บจริงจังตั้งแต่มื้อเย็นวันนี้'},
+  {d:'ส',ti:'6 มี.ค. · Shakeout 3 km',z:'A',dd:'เช้าตรู่ HR < 140 + strides 3 × 15 วินาที — สำคัญกว่าที่คิด หลังไม่วิ่ง 6 วันขาจะตื้อ วิ่งสั้นๆ วันนี้คือการปลุกระบบประสาทกลับมา · ที่เหลือของวันชอปปิ้งเบา ≤6,000 ก้าว เก็บของให้เสร็จก่อนสองทุ่ม',km:3},
+  {d:'อา',t:'race',ti:'TOKYO MARATHON · 42.2 km',z:'MP',dd:'ปล่อยตัว 09:10 น. · 0–5 km @ 7:10 (HR ≤150) · 5–30 km @ 6:58 (HR 152–158) · 30–42.2 km @ 7:05 · ตัดสินใจที่ km 25 จากความรู้สึกขา ไม่ใช่จากนาฬิกา',km:42.2}]},
+];
+
+const today=new Date(); today.setHours(0,0,0,0);
+const dleft=iso=>Math.round((new Date(iso+'T00:00:00')-today)/864e5);
+const setC=(id,iso)=>{const d=dleft(iso);document.getElementById(id).textContent=d>0?d+' วัน':(d===0?'วันนี้':'ผ่านไปแล้ว');};
+setC('c-osaka','2027-02-28'); setC('c-tokyo','2027-03-07');
+
+const totalOf=w=>w.km+(w.rk||0);
+const curIdx=(()=>{for(let i=PLAN.length-1;i>=0;i--){if(new Date(PLAN[i].start+'T00:00:00')<=today)return i;}return -1;})();
+
+const maxKm=Math.max(...PLAN.map(totalOf));
+document.getElementById('bars').innerHTML=PLAN.map(w=>{
+  const total=totalOf(w);
+  const p=w.race?'race':w.half?'tune':w.peak?'peak':w.rec?'rec':'base';
+  return `<div class="bar" data-p="${p}" title="สัปดาห์ ${w.n} · ${total} km">
+    <span class="v">${Math.round(total)}</span>
+    <span class="fill" style="height:${(total/maxKm*100).toFixed(1)}%"></span>
+    <span class="w">${w.n}</span></div>`;
+}).join('');
+
+const THDAY={'จ':'จันทร์','อ':'อังคาร','พ':'พุธ','พฤ':'พฤหัส','ศ':'ศุกร์','ส':'เสาร์','อา':'อาทิตย์'};
+const MON=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const fmt=(iso,add=0)=>{const d=new Date(iso+'T00:00:00');d.setDate(d.getDate()+add);return d.getDate()+' '+MON[d.getMonth()];};
+
+document.getElementById('weeks').innerHTML=PLAN.map((w,i)=>{
+  const total=totalOf(w);
+  const days=w.days.map(dy=>{
+    const cls=dy.t==='race'?'day race':dy.t==='tune'?'day tune':dy.t==='rest'?'day rest':'day';
+    const tag=dy.z?`<span class="tag t-${dy.z}">${dy.z==='MP'?'MP':'Zone '+dy.z}</span>`:'';
+    return `<div class="${cls}">
+      <div class="dn">${THDAY[dy.d]}</div>
+      <div><div class="dt">${dy.ti}${tag}</div>${dy.dd?`<div class="dd">${dy.dd}</div>`:''}</div>
+      <div class="dkm">${dy.km?dy.km+' km':''}</div></div>`;
+  }).join('');
+  return `<details class="week${i===curIdx?' now':''}"${i===curIdx?' open':''}>
+    <summary>
+      <span class="wno">W${w.n}</span>
+      <span class="wmeta"><span class="wphase">${w.phase}</span><br><span class="wdate">${fmt(w.start)} – ${fmt(w.start,6)}</span></span>
+      ${i===curIdx?'<span class="wnow">สัปดาห์นี้</span>':''}
+      ${w.race?'<span class="wnow wrace">มาราธอน</span>':''}
+      ${w.half?'<span class="wnow wtune">ฮาล์ฟ</span>':''}
+      <span class="wkm">${total % 1 ? total.toFixed(1) : total}<small> km</small></span>
+    </summary>
+    <div class="days">${days}</div>
+  </details>`;
+}).join('');
+</script>
